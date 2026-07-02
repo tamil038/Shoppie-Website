@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopiee | Contact</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="container inner">
+    <div class="logo"><a href="home.html">Shopiee</a></div>
+    <nav class="nav-links">
+      <a href="home.html" class="">Home</a>
+      <a href="products.html" class="">Products</a>
+      <a href="orders.html" class="">My Orders</a>
+      <a href="profile.html" class="">Profile</a>
+      <a href="contact.html" class="">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-link" aria-label="Cart">
+        🛒
+        <span id="cart-count-badge">0</span>
+      </a>
+      <a href="index.html" class="badge">Logout</a>
+    </div>
+  </div>
+</header>
+<main class="page container">
+  <h1>Contact Us</h1>
+  <div class="card" style="text-align:left">
+    <div class="stack">
+      <label>Your Name</label><input class="input" id="cname" placeholder="Your name">
+      <label>Your Email</label><input class="input" id="cemail" placeholder="you@example.com">
+      <label>Message</label><textarea class="input" id="cmsg" placeholder="How can we help?" rows="5"></textarea>
+      <button class="btn" id="sendBtn">Send Message</button>
+    </div>
+  </div>
+</main>
+<footer class="footer"><p>© 2025 Shopiee. All rights reserved.</p></footer>
+<script src="js/common.js"></script>
+<script>
+  document.getElementById('sendBtn').addEventListener('click',()=>{
+    alert('📧 Message sent! We will get back to you soon.');
+    document.getElementById('cname').value='';
+    document.getElementById('cemail').value='';
+    document.getElementById('cmsg').value='';
+  });
+</script>
+</body></html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopiee | My Orders</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="container inner">
+    <div class="logo"><a href="home.html">Shopiee</a></div>
+    <nav class="nav-links">
+      <a href="home.html" class="">Home</a>
+      <a href="products.html" class="">Products</a>
+      <a href="orders.html" class="">My Orders</a>
+      <a href="profile.html" class="">Profile</a>
+      <a href="contact.html" class="">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-link" aria-label="Cart">
+        🛒
+        <span id="cart-count-badge">0</span>
+      </a>
+      <a href="index.html" class="badge">Logout</a>
+    </div>
+  </div>
+</header>
+<main class="page container">
+  <h1>My Orders</h1>
+  <div id="orders"></div>
+</main>
+<footer class="footer"><p>© 2025 Shopiee. All rights reserved.</p></footer>
+<script src="js/common.js"></script>
+<script>
+  const wrap = document.getElementById('orders');
+  const orders = JSON.parse(localStorage.getItem('orders')||'[]');
+  if(orders.length===0){
+    wrap.innerHTML = `<div class='card'><p>You haven't placed any orders yet 🛒</p><br><button class='btn' onclick="window.location.href='products.html'">Shop Now</button></div>`;
+  } else {
+    wrap.innerHTML = orders.slice().reverse().map(o=>`
+      <div class="order-card">
+        <div class="order-head">
+          <h3>Order ID: #${o.id}</h3>
+          <span>${o.date}</span>
+        </div>
+        <div>
+          ${o.items.map(i=>`<div class='row'><span>${i.name} x ${i.qty}</span><span>₹${i.price*i.qty}</span></div>`).join('')}
+          <div class='row'><strong>Total</strong><strong>₹${o.total}</strong></div>
+          <div class='row'><span><strong>Payment:</strong> ${o.payment}</span><span>Status: Processing</span></div>
+        </div>
+        <br>
+        <button class="btn" onclick="track('${o.id}')">Track Order</button>
+      </div>
+    `).join('')
+  }
+  function track(id){
+    const stages = ["Processing","Packed","Shipped","Out for Delivery","Delivered"];
+    let i=0;
+    const timer = setInterval(()=>{
+      if(i<stages.length){ alert(`Order #${id} Status: ${stages[i]}`); i++; }
+      else clearInterval(timer);
+    }, 1200);
+  }
+</script>
+</body></html>

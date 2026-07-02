@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopiee | Cart</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="container inner">
+    <div class="logo"><a href="home.html">Shopiee</a></div>
+    <nav class="nav-links">
+      <a href="home.html" class="">Home</a>
+      <a href="products.html" class="">Products</a>
+      <a href="orders.html" class="">My Orders</a>
+      <a href="profile.html" class="">Profile</a>
+      <a href="contact.html" class="">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-link" aria-label="Cart">
+        🛒
+        <span id="cart-count-badge">0</span>
+      </a>
+      <a href="index.html" class="badge">Logout</a>
+    </div>
+  </div>
+</header>
+<main class="page container">
+  <h1>Your Shopping Cart</h1>
+  <div id="cartList" class="cart-list"></div>
+  <div class="summary" id="summary"></div>
+</main>
+<footer class="footer"><p>© 2025 Shopiee. All rights reserved.</p></footer>
+<script src="js/common.js"></script>
+<script>
+  function renderCartPage(){
+    const list = document.getElementById('cartList');
+    const summary = document.getElementById('summary');
+    const cart = getCart();
+    if(cart.length===0){
+      list.innerHTML = `<div class="card"><p>Your cart is empty 🛒</p><br><button class="btn" onclick="window.location.href='products.html'">Go to Products</button></div>`;
+      summary.innerHTML = "";
+      return;
+    }
+    list.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <img src="${item.img}" alt="${item.name}">
+        <div class="grow">
+          <h3>${item.name}</h3>
+          <p class="price">₹${item.price}</p>
+        </div>
+        <div class="qty">
+          <button onclick="changeQty(${item.id}, -1)">−</button>
+          <span>${item.qty}</span>
+          <button onclick="changeQty(${item.id}, 1)">+</button>
+        </div>
+        <button class="remove" onclick="changeQty(${item.id}, -${item.qty})">Remove</button>
+      </div>
+    `).join('');
+    const subtotal = cart.reduce((s,i)=>s + i.price*i.qty, 0);
+    summary.innerHTML = `<p><strong>Subtotal:</strong> ₹${subtotal}</p>
+      <button class="btn" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>`;
+  }
+  document.addEventListener('DOMContentLoaded', renderCartPage);
+  const _origChange = changeQty;
+  window.changeQty = function(id,delta){
+    _origChange(id,delta);
+    renderCartPage();
+  }
+</script>
+</body></html>

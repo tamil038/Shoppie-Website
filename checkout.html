@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopiee | Checkout</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="container inner">
+    <div class="logo"><a href="home.html">Shopiee</a></div>
+    <nav class="nav-links">
+      <a href="home.html" class="">Home</a>
+      <a href="products.html" class="">Products</a>
+      <a href="orders.html" class="">My Orders</a>
+      <a href="profile.html" class="">Profile</a>
+      <a href="contact.html" class="">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-link" aria-label="Cart">
+        🛒
+        <span id="cart-count-badge">0</span>
+      </a>
+      <a href="index.html" class="badge">Logout</a>
+    </div>
+  </div>
+</header>
+<main class="page container">
+  <h1>Checkout</h1>
+  <div class="section" style="padding-top:0">
+    <div class="form" id="checkoutForm">
+      <div><label>Full Name</label><input type="text" id="name" required></div>
+      <div><label>Phone</label><input type="tel" id="phone" required></div>
+      <div style="grid-column:1/-1"><label>Address</label><textarea id="address" required></textarea></div>
+      <div><label>City</label><input type="text" id="city" required></div>
+      <div><label>State</label><input type="text" id="state" required></div>
+      <div><label>Zip</label><input type="text" id="zip" required></div>
+      <div class="pay">
+        <h3>Payment Method</h3>
+        <label><input type="radio" name="pay" value="COD" checked> Cash on Delivery</label>
+        <label><input type="radio" name="pay" value="Card"> Credit/Debit Card</label>
+        <label><input type="radio" name="pay" value="UPI"> UPI / Net Banking</label>
+      </div>
+      <button class="btn" id="placeOrderBtn" style="grid-column:1/-1">Place Order</button>
+    </div>
+  </div>
+  <div class="section container" style="padding-top:0">
+    <h2>Order Summary</h2>
+    <div id="orderSummary"></div>
+  </div>
+</main>
+<footer class="footer"><p>© 2025 Shopiee. All rights reserved.</p></footer>
+<script src="js/common.js"></script>
+<script>
+  const summaryDiv = document.getElementById('orderSummary');
+  function renderSummary(){
+    const cart = getCart();
+    if(cart.length===0){ summaryDiv.innerHTML = "<p>Your cart is empty.</p>"; return; }
+    let subtotal = 0;
+    summaryDiv.innerHTML = cart.map(i=>{
+      const line = i.price * i.qty; subtotal += line;
+      return `<div class='row'><span>${i.name} x ${i.qty}</span><span>₹${line}</span></div>`;
+    }).join('') + `<div class='row'><strong>Total</strong><strong>₹${subtotal}</strong></div>`;
+  }
+  renderSummary();
+  document.getElementById('placeOrderBtn').addEventListener('click', ()=>{
+    const cart = getCart();
+    if(cart.length===0){ alert("Your cart is empty!"); return; }
+    const order = {
+      id: Date.now(),
+      items: cart,
+      customer:{
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value,
+        zip: document.getElementById('zip').value
+      },
+      payment: (document.querySelector('input[name="pay"]:checked')||{value:'COD'}).value,
+      total: cart.reduce((s,i)=>s+i.price*i.qty,0),
+      date: new Date().toLocaleString()
+    };
+    const orders = JSON.parse(localStorage.getItem('orders')||'[]');
+    orders.push(order);
+    localStorage.setItem('orders', JSON.stringify(orders));
+    clearCart();
+    window.location.href = "order-complete.html?id=" + order.id;
+  });
+</script>
+</body></html>

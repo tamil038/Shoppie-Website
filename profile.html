@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopiee | Profile</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="container inner">
+    <div class="logo"><a href="home.html">Shopiee</a></div>
+    <nav class="nav-links">
+      <a href="home.html" class="">Home</a>
+      <a href="products.html" class="">Products</a>
+      <a href="orders.html" class="">My Orders</a>
+      <a href="profile.html" class="">Profile</a>
+      <a href="contact.html" class="">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-link" aria-label="Cart">
+        🛒
+        <span id="cart-count-badge">0</span>
+      </a>
+      <a href="index.html" class="badge">Logout</a>
+    </div>
+  </div>
+</header>
+<main class="page container">
+  <h1>My Profile</h1>
+  <div class="card" style="text-align:left">
+    <div class="stack">
+      <label>Name</label><input class="input" id="pname" placeholder="Your name">
+      <label>Email</label><input class="input" id="pemail" placeholder="you@example.com">
+      <label>Address</label><textarea class="input" id="paddr" placeholder="Full address"></textarea>
+      <button class="btn" id="saveBtn">Save Profile</button>
+    </div>
+  </div>
+  <section class="section">
+    <h2>Recent Orders</h2>
+    <div id="recent"></div>
+  </section>
+</main>
+<footer class="footer"><p>© 2025 Shopiee. All rights reserved.</p></footer>
+<script src="js/common.js"></script>
+<script>
+  const profile = JSON.parse(localStorage.getItem('profile')||'{}');
+  document.getElementById('pname').value = profile.name||'';
+  document.getElementById('pemail').value = profile.email||'';
+  document.getElementById('paddr').value = profile.address||'';
+  document.getElementById('saveBtn').addEventListener('click',()=>{
+    const data = {
+      name: document.getElementById('pname').value,
+      email: document.getElementById('pemail').value,
+      address: document.getElementById('paddr').value
+    };
+    localStorage.setItem('profile', JSON.stringify(data));
+    alert('✅ Profile saved!');
+  });
+  const orders = JSON.parse(localStorage.getItem('orders')||'[]');
+  const recent = document.getElementById('recent');
+  if(orders.length===0) recent.innerHTML = "<p>No orders yet.</p>";
+  else recent.innerHTML = orders.slice(-3).reverse().map(o=>`
+    <div class='order-card'>
+      <div class='order-head'><h3>#${o.id}</h3><span>${o.date}</span></div>
+      <div class='row'><strong>Total</strong><strong>₹${o.total}</strong></div>
+    </div>
+  `).join('');
+</script>
+</body></html>

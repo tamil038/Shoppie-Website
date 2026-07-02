@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopiee | Products</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="container inner">
+    <div class="logo"><a href="home.html">Shopiee</a></div>
+    <nav class="nav-links">
+      <a href="home.html" class="">Home</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="orders.html" class="">My Orders</a>
+      <a href="profile.html" class="">Profile</a>
+      <a href="contact.html" class="">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-link" aria-label="Cart">
+        🛒
+        <span id="cart-count-badge">0</span>
+      </a>
+      <a href="index.html" class="badge">Logout</a>
+    </div>
+  </div>
+</header>
+<main class="page container">
+  <h1>Explore Our Collection</h1>
+  <div class="product-grid" id="product-list"></div>
+</main>
+<footer class="footer"><p>© 2025 Shopiee. All rights reserved.</p></footer>
+<script src="js/common.js"></script>
+<script>
+  const products = [
+    { id: 1, name: "Smart Watch", price: 4999, img: "img/smartwatch.jpg" },
+    { id: 2, name: "Wireless Headphones", price: 2499, img: "img/headphone.jpg" },
+    { id: 3, name: "Running Shoes", price: 2999, img: "img/runningshoe.jpg" },
+    { id: 4, name: "Coffee Maker", price: 2599, img: "img/coffeemaker.jpg" },
+    { id: 5, name: "Sunglasses", price: 1799, img: "img/sunglass.jpg" },
+    { id: 6, name: "Laptop Backpack", price: 1899, img: "img/lapbackpack.jpg" },
+    { id: 7, name: "Ear Buds", price: 1299, img: "img/earbuds.jpg" },
+    { id: 8, name: "Vivo Mobile", price: 27000, img: "img/mobile.jpg" },
+    { id: 9, name: "Head & Shoulder Shampoo", price: 1899, img: "img/shampoo.jpg" }
+  ];
+  const list = document.getElementById('product-list');
+  list.innerHTML = products.map(p => `
+    <div class="product-card">
+      <img src="${p.img}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p class="price">₹${p.price}</p>
+      <button class="btn" onclick='addItemToCart({id:${p.id},name:"${p.name}",price:${p.price},img:"${p.img}"})'>Add to Cart</button>
+    </div>
+  `).join('');
+</script>
+</body></html>

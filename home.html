@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopiee | Home</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="container inner">
+    <div class="logo"><a href="home.html">Shopiee</a></div>
+    <nav class="nav-links">
+      <a href="home.html" class="active">Home</a>
+      <a href="products.html" class="">Products</a>
+      <a href="orders.html" class="">My Orders</a>
+      <a href="profile.html" class="">Profile</a>
+      <a href="contact.html" class="">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="cart.html" class="cart-link" aria-label="Cart">
+        🛒
+        <span id="cart-count-badge">0</span>
+      </a>
+      <a href="index.html" class="badge">Logout</a>
+    </div>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <div class="container inner">
+      <div>
+        <h1>Shop Smart, Live Better</h1>
+        <p>Discover amazing products at unbeatable prices. Your one‑stop destination for all your shopping needs.</p>
+        <button onclick="window.location.href='products.html'">Shop Now</button>
+      </div>
+      <img src="https://placehold.co/420x260/8a2be2/ffffff?text=Shopiee" alt="Shopiee banner" style="border-radius:14px;box-shadow:var(--shadow)">
+    </div>
+  </section>
+  <section class="section container">
+    <h2>Shop by Category</h2>
+    <div class="category-grid" onclick="window.location.href='products.html'">
+      <div class="category-card">Electronics</div>
+      <div class="category-card">Fashion</div>
+      <div class="category-card">Home</div>
+      <div class="category-card">Sports</div>
+    </div>
+  </section>
+  <section class="section container">
+    <h2>Featured</h2>
+    <div class="product-grid" id="featured"></div>
+  </section>
+</main>
+<footer class="footer"><p>© 2025 Shopiee. All rights reserved.</p></footer>
+<script src="js/common.js"></script>
+<script>
+  const featuredData = [
+    { id: 1, name: "Smart Watch", price: 4999, img: "img/smartwatch.jpg" },
+    { id: 2, name: "Wireless Headphones", price: 2499, img: "img/headphone.jpg" },
+    { id: 3, name: "Running Shoes", price: 2999, img: "img/runningshoe.jpg" },
+    { id: 6, name: "Laptop Backpack", price: 1899, img: "img/lapbackpack.jpg" }
+  ];
+  const grid = document.getElementById('featured');
+  grid.innerHTML = featuredData.map(p => `
+    <div class="product-card">
+      <img src="${p.img}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p class="price">₹${p.price}</p>
+      <button class="btn" onclick='addItemToCart({id:${p.id},name:"${p.name}",price:${p.price},img:"${p.img}"})'>Add to Cart</button>
+    </div>
+  `).join('');
+</script>
+</body></html>
